@@ -6,3 +6,4 @@ svgwrite
 ezdxf
 Pillow
 numpy
+shapely

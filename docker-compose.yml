@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./BACKEND
+      dockerfile: Dockerfile
+    container_name: autogdt-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./BACKEND:/app
+      - backend-uploads:/app/uploads
+      - backend-outputs:/app/outputs
+    environment:
+      - PYTHONUNBUFFERED=1
+    networks:
+      - autogdt-network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./FRONTEND/autogdt-engine
+      dockerfile: Dockerfile
+    container_name: autogdt-frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./FRONTEND/autogdt-engine:/app
+      - /app/node_modules
+    environment:
+      - VITE_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+    networks:
+      - autogdt-network
+    restart: unless-stopped
+
+networks:
+  autogdt-network:
+    driver: bridge
+
+volumes:
+  backend-uploads:
+  backend-outputs:
