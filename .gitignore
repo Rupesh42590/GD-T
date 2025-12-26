@@ -57,3 +57,6 @@ dist-ssr/
 # Backend Specific
 BACKEND/outputs/
 BACKEND/uploads/
+
+# Shell scripts
+*.sh
